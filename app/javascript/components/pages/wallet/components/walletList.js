@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import WalletCreateForm from './walletCreateForm';
 
 const WalletList = () => {
   const [ wallets, setWallets ] = useState([])
@@ -17,7 +18,11 @@ const WalletList = () => {
   }
 
   return <Wrapper>
-
+    <div class="wallet-create-form row">
+      <div class="col-md-5 mx-auto my-5">
+        <WalletCreateForm />
+      </div>
+    </div>
   </Wrapper>;
 }
 
