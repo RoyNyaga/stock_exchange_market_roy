@@ -9,18 +9,23 @@ const WalletList = () => {
   useEffect(() => {
     getWallets()
   }, []);
+
+  const increaseWallets = (wallet) => {
+    setWallets(previous => [...previous, wallet])
+  }
   
   const getWallets = () => {
     axios.get("/wallets/index")
     .then(response => {
-      console.log(response)
+      setWallets(response.data)
     })
   }
 
   return <Wrapper>
-    <div class="wallet-create-form row">
-      <div class="col-md-5 mx-auto my-5">
-        <WalletCreateForm />
+    <div className="wallet-create-form row">
+      <h1>{ wallets.length}</h1>
+      <div className="col-md-5 mx-auto my-5">
+        <WalletCreateForm  increaseWallets={increaseWallets}/>
       </div>
     </div>
   </Wrapper>;

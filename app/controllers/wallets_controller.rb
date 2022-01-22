@@ -10,18 +10,18 @@ class WalletsController < ApplicationController
 
   def update
     if @wallet.update(wallet_params)
-      render json: @wallet, status: :updated
+      render json: { wallet: @wallet, status: "succeeded" }
     else
-      render json: { message: @wallet.errors.messages.join(","), status: :unprocessable_entity }
+      render json: { message: @wallet.errors.messages.join(","), status: "failed" }
     end
   end
 
   def create
     @wallet = Wallet.new(wallet_params)
     if @wallet.save
-      render json: @wallet, status: :created
+      render json: {wallet: @wallet, status: "succeeded"}
     else
-      render json: { message: @wallet.errors.full_messages.join(","), status: :unprocessable_entity }
+      render json: { message: @wallet.errors.full_messages.join(","), status: "failed" }
     end
   end
   
@@ -33,6 +33,6 @@ class WalletsController < ApplicationController
 
   def set_wallet
     @wallet = Wallet.find_by(id: params[:id])
-    return render status: 404, json: { message: "Record not found" }
+    return render json: { message: "Record not found", status: "failed" }
   end
 end
