@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import WalletCreateForm from './walletCreateForm';
 import Wallet from './wallet';
+import SelectedWallet from './selectedWallet';
 
 const WalletList = () => {
   const [ wallets, setWallets ] = useState([])
@@ -43,8 +44,12 @@ const WalletList = () => {
           { wallets.length > 0 ? wallets.map((wallet) => renderWalletAsSelected(wallet)) : null }
         </div>
       </div>
-      <div className="col-md-3 notifications-div"></div>
-      <div className="col-md-5 symbol-div"></div>
+      <div className="col-md-3 notifications-div">
+        <h4 className="text-center text-white py-5">Notifications</h4>
+      </div>
+      <div className="col-md-5 symbol-div">
+        <SelectedWallet selectedWalletId={selectedWalletId}/>
+      </div>
     </div>
   </Wrapper>;
 }
