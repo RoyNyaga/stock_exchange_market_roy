@@ -2,7 +2,6 @@ class WalletsController < ApplicationController
   before_action :set_wallet, only: %i[ update destroy ]
   
   def index
-    render json: Wallet.all
   end
 
   def update
