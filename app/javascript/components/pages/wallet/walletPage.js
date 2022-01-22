@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import WalletList from './components/walletList';
 
-const walletPage = ({ wallets }) => {
+const walletPage = () => {
   
   return <Wrapper>
-    <div class="container-fluid">
-
+    <div className="container-fluid">
+      <div className="wallet-list-div">
+        <WalletList/>
+      </div>
     </div>
   </Wrapper>;
 }
