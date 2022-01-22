@@ -1,11 +1,16 @@
 class WalletsController < ApplicationController
-  before_action :set_wallet, only: %i[ update destroy ]
+  before_action :set_wallet, only: %i[ update destroy symbols ]
   
   def index
     render json: Wallet.all
   end
 
   def main_page
+  end
+
+  def symbols
+    @symbols = @wallet.symbolings
+    render json: @symbols
   end
 
   def update

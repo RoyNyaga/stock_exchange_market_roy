@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :wallets do 
     collection do
       get :main_page
+      get :symbols
     end
   end
 end

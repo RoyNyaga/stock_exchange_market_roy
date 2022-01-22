@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import WalletList from './walletList';
 
-const Wallet = ({ wallet }) => {
-  return <Wrapper>
+const Wallet = (props) => {
+  const { wallet, selectWallet, id, selected } = props;
+  return <Wrapper selected={selected} id={id} onClick={(e)=>selectWallet(e)}>
     { wallet.name }
   </Wrapper>;
 }
@@ -14,9 +16,10 @@ const Wrapper = styled.div`
   padding: 5px;
   font-size: 1.5em;
   text-align: center;
+  background: ${props => (props.selected ? "#1a6c9b" : "#052c41" )};
 
   :hover{
-    background: green;
+    background: #1a6c9b;
   }
 `
 
