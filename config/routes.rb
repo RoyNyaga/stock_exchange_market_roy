@@ -8,4 +8,6 @@ Rails.application.routes.draw do
       get :symbols
     end
   end
+
+  resources :symbolings
 end

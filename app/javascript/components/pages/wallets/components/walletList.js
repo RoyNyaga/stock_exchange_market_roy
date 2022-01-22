@@ -36,6 +36,11 @@ const WalletList = () => {
     }
   }
 
+  const getSelectedWallet = wallets.find((wallet)=>{
+    return wallet.id == selectedWalletId;
+  })
+
+
   return <Wrapper>
     <div className="row">
       <div className="col-md-4 wallet-create-form-div my-5">
@@ -44,11 +49,11 @@ const WalletList = () => {
           { wallets.length > 0 ? wallets.map((wallet) => renderWalletAsSelected(wallet)) : null }
         </div>
       </div>
-      <div className="col-md-3 notifications-div">
+      <div className="col-md-4 notifications-div">
         <h4 className="text-center text-white py-5">Notifications</h4>
       </div>
-      <div className="col-md-5 symbol-div">
-        <SelectedWallet selectedWalletId={selectedWalletId}/>
+      <div className="col-md-4 symbol-div py-5">
+        { wallets.length > 0 ? <SelectedWallet wallet={getSelectedWallet} selectedWalletId={selectedWalletId}/> : null }
       </div>
     </div>
   </Wrapper>;
