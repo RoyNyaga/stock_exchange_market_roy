@@ -10,6 +10,7 @@ class WalletsController < ApplicationController
       render json: @wallet, status: :updated
     else
       render json: { message: @wallet.errors.messages.join(","), status: :unprocessable_entity }
+    end
   end
 
   def create
@@ -17,7 +18,7 @@ class WalletsController < ApplicationController
     if @wallet.save
       render json: @wallet, status: :created
     else
-      render json: {message: @wallet.errors.full_messages, status: :unprocessable_entity}
+      render json: { message: @wallet.errors.full_messages.join(","), status: :unprocessable_entity }
     end
   end
   
