@@ -12,9 +12,9 @@ const SelectedWallet = ({ wallet, symbolings, increaseSymbolings }) => {
       <SymbolCreateForm wallet={wallet} increaseSymbolings={increaseSymbolings}/>
     </div>
 
-    <div className="symbolings-div">
+    <div className="symbolings-div row">
       { symbolings.length > 0 ? symbolings.map((symboling=>{
-        return <Symboling key={symboling.id} symboling={symboling} />
+        return<div className="col-md-6"><Symboling key={symboling.id} symboling={symboling} /></div>
       })) 
       :
       null}

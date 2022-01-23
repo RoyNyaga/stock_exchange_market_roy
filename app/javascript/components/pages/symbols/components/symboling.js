@@ -12,6 +12,8 @@ const Symboling = ({ symboling }) => {
 }
 
 const Wrapper = styled.div`
-
+  border: 2px solid #1a6c9b;
+  padding: 5px;
+  margin: 5px;
 `
 export default Symboling
