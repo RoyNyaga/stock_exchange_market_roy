@@ -1,5 +1,5 @@
 class WalletsController < ApplicationController
-  before_action :set_wallet, only: %i[ update destroy symbols ]
+  before_action :set_wallet, only: %i[ update destroy symbolings ]
   
   def index
     render json: Wallet.all
@@ -8,7 +8,7 @@ class WalletsController < ApplicationController
   def main_page
   end
 
-  def symbols
+  def symbolings
     @symbols = @wallet.symbolings
     render json: @symbols
   end
@@ -38,6 +38,6 @@ class WalletsController < ApplicationController
 
   def set_wallet
     @wallet = Wallet.find_by(id: params[:id])
-    return render json: { message: "Record not found", status: "failed" }
+    return render json: { message: "Record not found", status: "failed" } unless @wallet
   end
 end

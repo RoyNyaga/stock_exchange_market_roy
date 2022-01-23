@@ -7,11 +7,27 @@ import SelectedWallet from './selectedWallet';
 
 const WalletList = () => {
   const [ wallets, setWallets ] = useState([])
-  const [ selectedWalletId, setSellectedWalletId ] = useState(1)
+  const [ selectedWalletId, setSellectedWalletId ] = useState()
+  const [ symbolingsOfSelectedWallet, setSymbolingsOfSelectedWallet] = useState([])
+
+  const increaseSymbolings = (symboling) => {
+    setSymbolingsOfSelectedWallet(previous => [...previous, symboling])
+  }
 
   useEffect(() => {
     getWallets()
   }, []);
+
+  const getWalletSymbolings = (walletId) => {
+    axios.get(`/wallets/${walletId}/symbolings`)
+    .then(response => {
+      console.log(response.data)
+      setSymbolingsOfSelectedWallet(response.data)
+    })
+    .then(error=>{
+      console.log(error)
+    })
+  }
 
   const increaseWallets = (wallet) => {
     setWallets(previous => [...previous, wallet])
@@ -20,12 +36,15 @@ const WalletList = () => {
   const getWallets = () => {
     axios.get("/wallets/index")
     .then(response => {
+      setSellectedWalletId(response.data[0].id)
+      getWalletSymbolings(response.data[0].id)
       setWallets(response.data)
     })
   }
 
   const selectWallet = (e) => {
     setSellectedWalletId(e.target.id)
+    getWalletSymbolings(e.target.id)
   }
 
   const renderWalletAsSelected = (wallet) => {
@@ -53,7 +72,9 @@ const WalletList = () => {
         <h4 className="text-center text-white py-5">Notifications</h4>
       </div>
       <div className="col-md-4 symbol-div py-5">
-        { wallets.length > 0 ? <SelectedWallet wallet={getSelectedWallet} selectedWalletId={selectedWalletId}/> : null }
+        { wallets.length > 0 ? <SelectedWallet wallet={getSelectedWallet} 
+        symbolings={symbolingsOfSelectedWallet}
+        increaseSymbolings={increaseSymbolings}/> : null }
       </div>
     </div>
   </Wrapper>;

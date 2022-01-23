@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BtnGeneral from '../../../shared/btnGeneral';
 import axios from 'axios';
 
-const SymbolCreateForm = ({ wallet }) => {
+const SymbolCreateForm = ({ wallet, increaseSymbolings }) => {
   const [symbolingInputValue, setSymbolingInputValue] = useState("")
-  const [symbolings, setSymbolings] = useState([])
 
   const submit = (e) => {
     e.preventDefault();
@@ -16,7 +15,10 @@ const SymbolCreateForm = ({ wallet }) => {
       }
     })
     .then(response=>{
-      console.log(response.data)
+      increaseSymbolings(response.data.symboling)
+    })
+    .catch(error=>{
+      console.log(error)
     })
   }
 

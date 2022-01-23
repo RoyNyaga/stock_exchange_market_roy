@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   resources :wallets do 
     collection do
       get :main_page
-      get :symbols
+    end
+
+    member do 
+      get :symbolings
     end
   end
 
