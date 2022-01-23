@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BtnGeneral from '../../../shared/btnGeneral';
 import axios from 'axios';
 
 const SymbolCreateForm = ({ wallet, increaseSymbolings }) => {
-  const [symbolingInputValue, setSymbolingInputValue] = useState("")
+  const [nameInputFieldValue, setNameInputFieldValue] = useState("")
 
   const submit = (e) => {
     e.preventDefault();
     axios.post(`/symbolings`, {
       symboling: {
-        name: symbolingInputValue,
+        name: nameInputFieldValue,
         wallet_id: wallet.id
       }
     })
@@ -23,7 +23,7 @@ const SymbolCreateForm = ({ wallet, increaseSymbolings }) => {
   }
 
   return <Wrapper>
-    <input type="text" onChange={(e)=> setSymbolingInputValue(e.target.value)} className="form-control" placeholder='Enter symbol name'/>
+    <input type="text" onChange={(e)=> setNameInputFieldValue(e.target.value)} className="form-control" placeholder='Enter symbol name'/>
     <div className="d-flex justify-content-center my-4">
       <BtnGeneral option={submit}>Add Symbol</BtnGeneral>
     </div>

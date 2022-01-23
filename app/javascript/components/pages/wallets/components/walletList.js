@@ -10,6 +10,11 @@ const WalletList = () => {
   const [ selectedWalletId, setSellectedWalletId ] = useState()
   const [ symbolingsOfSelectedWallet, setSymbolingsOfSelectedWallet] = useState([])
 
+  const updateSymboling = (symboling) => {
+    const symbolings = symbolingsOfSelectedWallet.filter((s) => s.id != symboling.id)
+    setSymbolingsOfSelectedWallet([...symbolings, symboling])
+  }
+
   const increaseSymbolings = (symboling) => {
     setSymbolingsOfSelectedWallet(previous => [...previous, symboling])
   }
@@ -74,7 +79,8 @@ const WalletList = () => {
       <div className="col-md-4 symbol-div py-5">
         { wallets.length > 0 ? <SelectedWallet wallet={getSelectedWallet} 
         symbolings={symbolingsOfSelectedWallet}
-        increaseSymbolings={increaseSymbolings}/> : null }
+        increaseSymbolings={increaseSymbolings}
+        updateSymboling={updateSymboling}/> : null }
       </div>
     </div>
   </Wrapper>;
