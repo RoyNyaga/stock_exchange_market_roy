@@ -29,7 +29,6 @@ const WalletCreateForm = ({ increaseWallets, showErrors, dismissErrors }) => {
       setBtnLoad(false)
     })
     .catch(error=>{
-      console.log(error)
       setBtnLoad(false)
     })
     

@@ -20,7 +20,7 @@ class SymbolingsController < ApplicationController
     
     if @symboling.save
       close_price = symbol_info["data"].first["close"]
-      Notification.create(wallet: @symboling.wallet, content: Notification.wallet_message(@symboling.name, 60)) if close_price > 60
+      Notification.create(wallet: @symboling.wallet, content: Notification.wallet_message(@symboling.name, 70)) if close_price > 70
       render json: { symboling: @symboling, status: "succeeded" }
     else
       render json: { message: @symboling.errors.full_messages, status: "failed" }

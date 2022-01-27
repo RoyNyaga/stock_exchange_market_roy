@@ -53,19 +53,15 @@ const WalletList = () => {
   const getWalletSymbolings = (walletId) => {
     axios.get(`/wallets/${walletId}/symbolings`)
     .then(response => {
-      console.log(response.data)
       setSymbolingsOfSelectedWallet(response.data)
     })
     .then(error=>{
-      console.log(error)
     })
   }
 
   const getWalletNotifications = (walletId) => {
-    console.log(walletId)
     axios.get(`/wallets/${walletId}/notifications`)
     .then(response => {
-      console.log("response", response.data)
       setWalletNotifications(response.data)
     })
     .then(error=>{

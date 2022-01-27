@@ -16,7 +16,7 @@ const SymbolCreateForm = ({ wallet, increaseSymbolings, toggleSymbolErrorMessage
     setBtnLoad(true)
     axios.post(`/symbolings`, {
       symboling: {
-        name: nameInputFieldValue,
+        name: nameInputFieldValue.toUpperCase(),
         wallet_id: wallet.id
       }
     })
@@ -31,7 +31,6 @@ const SymbolCreateForm = ({ wallet, increaseSymbolings, toggleSymbolErrorMessage
       setBtnLoad(false)
     })
     .catch(error=>{
-      console.log(error)
       setBtnLoad(false)
     })
   }

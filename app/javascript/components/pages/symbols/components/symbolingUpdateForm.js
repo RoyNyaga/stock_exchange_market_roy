@@ -17,7 +17,7 @@ const SymbolingUpdateForm = ({ symboling, updateSymboling, handleCancel }) => {
 
     axios.patch(`/symbolings/${symboling.id}`, {
       symboling: {
-        name: nameInputField,
+        name: nameInputField.toUpperCase(),
         wallet_id: symboling.wallet_id
       }
     })
@@ -32,7 +32,6 @@ const SymbolingUpdateForm = ({ symboling, updateSymboling, handleCancel }) => {
       setBtnLoad(false)
     })
     .catch(error=>{
-      console.log(error)
     })
   }
 

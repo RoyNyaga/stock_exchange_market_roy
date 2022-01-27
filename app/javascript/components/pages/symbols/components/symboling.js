@@ -5,6 +5,7 @@ import { DeleteOutlined, EyeOutlined, EditOutlined } from "@ant-design/icons"
 import axios from 'axios';
 import 'antd/dist/antd.css';
 import SymbolingUpdateForm from './symbolingUpdateForm';
+import BtnDelete from '../../../shared/btnDelete';
 
 
 const Symboling = ({ symboling, updateSymboling, reduceSymbolings }) => {
@@ -27,7 +28,7 @@ const Symboling = ({ symboling, updateSymboling, reduceSymbolings }) => {
     <div className="d-flex justify-content-between text-white">
       <span>{symboling.name}</span>
       <span className="cursor-pointer" onClick={()=>setModalVisibility(true)}><EditOutlined/></span>
-      <span className="cursor-pointer" onClick={ deleteSymboling }><DeleteOutlined style={{color: "red"}}/></span>
+      <span className="cursor-pointer"><BtnDelete object={`${symboling.name} symbole`} option={deleteSymboling}><DeleteOutlined style={{color: "red"}}/></BtnDelete></span>
     </div>
 
     <StyledModal
