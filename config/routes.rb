@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
     member do 
       get :symbolings
+      get :notifications
     end
   end
 

@@ -4,11 +4,13 @@ import axios from 'axios';
 import WalletCreateForm from './walletCreateForm';
 import Wallet from './wallet';
 import SelectedWallet from './selectedWallet';
+import NotificationList from '../../notifications/notificationList';
 
 const WalletList = () => {
   const [ wallets, setWallets ] = useState([])
   const [ selectedWalletId, setSellectedWalletId ] = useState()
   const [ symbolingsOfSelectedWallet, setSymbolingsOfSelectedWallet] = useState([])
+  const [ walletNotifications, setWalletNotifications ] = useState([])
 
   const updateSymboling = (symboling) => {
     const symbolings = symbolingsOfSelectedWallet.filter((s) => s.id != symboling.id)
@@ -17,6 +19,7 @@ const WalletList = () => {
 
   const increaseSymbolings = (symboling) => {
     setSymbolingsOfSelectedWallet(previous => [...previous, symboling])
+    getWalletNotifications(symboling.wallet_id)
   }
 
   useEffect(() => {
@@ -34,6 +37,18 @@ const WalletList = () => {
     })
   }
 
+  const getWalletNotifications = (walletId) => {
+    console.log(walletId)
+    axios.get(`/wallets/${walletId}/notifications`)
+    .then(response => {
+      console.log("response", response.data)
+      setWalletNotifications(response.data)
+    })
+    .then(error=>{
+      console.log(error)
+    })
+  }
+
   const increaseWallets = (wallet) => {
     setWallets(previous => [...previous, wallet])
   }
@@ -41,15 +56,19 @@ const WalletList = () => {
   const getWallets = () => {
     axios.get("/wallets/index")
     .then(response => {
-      setSellectedWalletId(response.data[0].id)
-      getWalletSymbolings(response.data[0].id)
+      const selectedWallet = response.data[0]
+      setSellectedWalletId(selectedWallet.id)
+      getWalletSymbolings(selectedWallet.id)
       setWallets(response.data)
+      getWalletNotifications(selectedWallet.id)
     })
   }
 
   const selectWallet = (e) => {
-    setSellectedWalletId(e.target.id)
-    getWalletSymbolings(e.target.id)
+    const walletId = e.target.id
+    setSellectedWalletId(walletId)
+    getWalletSymbolings(walletId)
+    getWalletNotifications(walletId)
   }
 
   const renderWalletAsSelected = (wallet) => {
@@ -74,7 +93,7 @@ const WalletList = () => {
         </div>
       </div>
       <div className="col-md-4 notifications-div">
-        <h4 className="text-center text-white py-5">Notifications</h4>
+        <NotificationList notifications={walletNotifications}/>
       </div>
       <div className="col-md-4 symbol-div py-5">
         { wallets.length > 0 ? <SelectedWallet wallet={getSelectedWallet} 
@@ -87,7 +106,7 @@ const WalletList = () => {
 }
 
 const Wrapper = styled.div`
- 
+  
 `
 
 export default WalletList;

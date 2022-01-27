@@ -1,5 +1,5 @@
 class WalletsController < ApplicationController
-  before_action :set_wallet, only: %i[ update destroy symbolings ]
+  before_action :set_wallet, only: %i[ update destroy symbolings notifications ]
   
   def index
     render json: Wallet.all
@@ -10,7 +10,11 @@ class WalletsController < ApplicationController
 
   def symbolings
     @symbols = @wallet.symbolings
-    render json: @symbols
+    render json: @wallet.symbolings
+  end
+
+  def notifications
+    render json: @wallet.notifications.order(id: :desc)
   end
 
   def update
