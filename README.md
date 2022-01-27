@@ -3,7 +3,7 @@
 <img src="https://res.cloudinary.com/it-s-tech/image/upload/v1643306718/Screen_Shot_2022-01-27_at_19.12.42_z0gngy.png">
 
 ### About
-This app is capable of creating a wallet, add symbols to the wallet and perform an End-Of-Day data request to the [Marketstack API](https://marketstack.com/) using all the symbols of the wallet. It performs a validation at the level of creating a symbol making sure that only global existing symbols will be saved in the database. The app was build as a dashborad with the help of React which faciliated instant interaction without loading the page.
+This app is capable of creating a wallet, adding symbols to the wallet, and performing an End-Of-Day data request to the [Marketstack API](https://marketstack.com/) using all the symbols of the wallet. It performs a validation at the level of creating a symbol making sure that only global existing symbols will be saved in the database. The app was built as a dashboard with the help of React which facilitated instant interaction without loading the page.
 
 ### Live Demo 
 Click [here](https://shielded-garden-55584.herokuapp.com/) to see the live version.
