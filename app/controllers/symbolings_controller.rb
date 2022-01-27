@@ -1,3 +1,4 @@
+require "#{Rails.root}/app/services/marketstack_service.rb"
 class SymbolingsController < ApplicationController
 
   def update
@@ -11,6 +12,8 @@ class SymbolingsController < ApplicationController
 
   def create 
     @symboling = Symboling.new(symboling_params)
+    symbol_info = MarketstackService.get_data("eod", params[:symboling][:name])
+    return render json: { message: MarketstackService.parse_error_message(symbol_info), status: "failed" } if symbol_info.keys.include?("error")
     if @symboling.save
       render json: { symboling: @symboling, status: "succeeded" }
     else

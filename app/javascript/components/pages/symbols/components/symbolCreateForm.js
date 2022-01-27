@@ -15,7 +15,8 @@ const SymbolCreateForm = ({ wallet, increaseSymbolings }) => {
       }
     })
     .then(response=>{
-      increaseSymbolings(response.data.symboling)
+      // increaseSymbolings(response.data.symboling)
+      console.log(response.data)
     })
     .catch(error=>{
       console.log(error)

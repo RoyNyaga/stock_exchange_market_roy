@@ -16,6 +16,15 @@ module MarketstackService
     api_response = JSON.parse(json)
   rescue => e
     Rails.logger.info "Error while processing request #{e}"
-    nil
+    {
+      "error": {
+         "code": "server_error",
+          "message": "error while processing your request, please contact support team"
+        }
+    }
+  end
+
+  def self.parse_error_message(data)
+    [data["error"]["message"]]
   end
 end
