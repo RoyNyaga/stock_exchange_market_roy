@@ -54,11 +54,11 @@ const Wrapper = styled.div`
 const StyledModal = styled(Modal)`
   .ant-modal-content{
     background: #1d0c0980;
-    border: 5px solid orange;
+    border: 5px solid #5dbcf5;
   }
 
   .ant-modal-header{
-    background: orange;
+    background: #5dbcf5;
   }
 
   button:nth-of-type(2){

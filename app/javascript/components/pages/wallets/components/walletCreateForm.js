@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import BtnGeneral from '../../../shared/btnGeneral';
 import axios from 'axios';
+import Notify from '../../../shared/notify';
 
 // avoiding CSRF errors, I book marked an article for this.
 const token = document.querySelector('[name=csrf-token]').content
@@ -9,23 +10,31 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = token
 
 const WalletCreateForm = ({ increaseWallets }) => {
   const [ nameInputField, setNameInputField ] = useState("");
+  const [ btnLoad, setBtnLoad ] = useState(false)
+
   const submit = (e) => {
+    setBtnLoad(true)
     e.preventDefault()
     axios.post("/wallets", {
       wallet: { name: nameInputField }
     })
     .then(response=>{
       increaseWallets(response.data.wallet)
+      Notify.success(`${response.data.wallet.name} was created successfully`)
+      setBtnLoad(false)
     })
     .catch(error=>{
       console.log(error)
+      setBtnLoad(false)
+
     })
+    
   }
 
   return <Wrapper>
     <input type="text" onChange={(e)=>{setNameInputField(e.target.value)}} className="form-control" placeholder='Enter Wallet Name' />
     <div className="d-flex justify-content-center my-4">
-      <BtnGeneral option={submit}>Add Wallet</BtnGeneral>
+      <BtnGeneral loading={ btnLoad } option={submit}>Add Wallet</BtnGeneral>
     </div>
   </Wrapper>;
 }

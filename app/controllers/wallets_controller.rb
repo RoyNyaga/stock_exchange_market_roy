@@ -3,7 +3,7 @@ class WalletsController < ApplicationController
   before_action :set_wallet, only: %i[ update destroy symbolings notifications symbol_end_of_day_data]
   
   def index
-    render json: Wallet.all
+    render json: Wallet.all.order(id: :desc)
   end
 
   def main_page

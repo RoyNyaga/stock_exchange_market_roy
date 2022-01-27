@@ -15,6 +15,7 @@ const WalletList = () => {
   const [ symbolingsOfSelectedWallet, setSymbolingsOfSelectedWallet] = useState([])
   const [ walletNotifications, setWalletNotifications ] = useState([])
   const [ walletEndOfDaySymbolingData, setWalletEndOfDaySymbolingData ] = useState([])
+  const [ btnLoad, setBtnLoad ] = useState(false)
 
   const updateSymboling = (symboling) => {
     const symbolings = symbolingsOfSelectedWallet.filter((s) => s.id != symboling.id)
@@ -58,7 +59,8 @@ const WalletList = () => {
   }
 
   const increaseWallets = (wallet) => {
-    setWallets(previous => [...previous, wallet])
+    setWallets(previous => [wallet, ...previous])
+    setSellectedWalletId(wallet.id)
   }
   
   const getWallets = () => {
@@ -93,9 +95,11 @@ const WalletList = () => {
   })
 
   const getEndOfDayDataForAllSymbols = () => {
+    setBtnLoad(true)
     axios.get(`/wallets/${getSelectedWallet.id}/symbol_end_of_day_data`)
     .then(response => {
       setWalletEndOfDaySymbolingData(response.data)
+      setBtnLoad(false)
     })
   }
 
@@ -121,7 +125,7 @@ const WalletList = () => {
 
         <div className="end-of-day-data-btn my-5 d-flex justify-content-center">
           { symbolingsOfSelectedWallet.length > 0 ?
-          <BtnGeneral option={getEndOfDayDataForAllSymbols}>Get end of day data for all symbolgs</BtnGeneral>
+          <BtnGeneral loading={btnLoad} option={getEndOfDayDataForAllSymbols}>Get end of day data for all symbolgs</BtnGeneral>
           :
           null
         } 
