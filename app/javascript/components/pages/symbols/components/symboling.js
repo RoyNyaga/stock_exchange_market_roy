@@ -2,22 +2,32 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Modal, message } from 'antd';
 import { DeleteOutlined, EyeOutlined, EditOutlined } from "@ant-design/icons"
+import axios from 'axios';
 import 'antd/dist/antd.css';
 import SymbolingUpdateForm from './symbolingUpdateForm';
 
 
-const Symboling = ({ symboling, updateSymboling }) => {
+const Symboling = ({ symboling, updateSymboling, reduceSymbolings }) => {
   const [modalVisibility, setModalVisibility] = useState(false)
   
   const handleCancel = () => {
     setModalVisibility(false)
   }
 
+  const deleteSymboling = () => {
+    axios.delete(`/symbolings/${symboling.id}`)
+    .then(response => {
+      if (response.data = "succeeded" ){
+        reduceSymbolings(symboling)
+      }
+    })
+  }
+
   return <Wrapper>
     <div className="d-flex justify-content-between text-white">
       <span>{symboling.name}</span>
       <span className="cursor-pointer" onClick={()=>setModalVisibility(true)}><EditOutlined/></span>
-      <span className="cursor-pointer"><DeleteOutlined style={{color: "red"}}/></span>
+      <span className="cursor-pointer" onClick={ deleteSymboling }><DeleteOutlined style={{color: "red"}}/></span>
     </div>
 
     <StyledModal

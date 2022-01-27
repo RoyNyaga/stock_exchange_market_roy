@@ -1,5 +1,6 @@
 require "#{Rails.root}/app/services/marketstack_service.rb"
 class SymbolingsController < ApplicationController
+  before_action :set_symboling, only: %i[ destroy ]
 
   def update
     @symboling = Symboling.find_by(id: params[:id])
@@ -24,7 +25,17 @@ class SymbolingsController < ApplicationController
     end
   end
 
+  def destroy
+    @symboling.destroy
+    render json: { status: "succeeded" }
+  end
+
   private
+
+  def set_symboling
+    @symboling = Symboling.find_by(id: params[:id])
+    return render json: { message: "Record not found", status: "failed" } unless @symboling
+  end
   
   def symboling_params
     params.require(:symboling).permit(:name, :wallet_id)

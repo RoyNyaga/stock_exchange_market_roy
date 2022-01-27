@@ -22,6 +22,10 @@ const WalletList = () => {
     getWalletNotifications(symboling.wallet_id)
   }
 
+  const reduceSymbolings = (symboling) => {
+    setSymbolingsOfSelectedWallet(previous => [...previous].filter((s) => s.id != symboling.id ))
+  }
+
   useEffect(() => {
     getWallets()
   }, []);
@@ -99,7 +103,8 @@ const WalletList = () => {
         { wallets.length > 0 ? <SelectedWallet wallet={getSelectedWallet} 
         symbolings={symbolingsOfSelectedWallet}
         increaseSymbolings={increaseSymbolings}
-        updateSymboling={updateSymboling}/> : null }
+        updateSymboling={updateSymboling}
+        reduceSymbolings={reduceSymbolings}/> : null }
       </div>
     </div>
   </Wrapper>;
