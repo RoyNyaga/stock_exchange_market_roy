@@ -24,7 +24,7 @@ const SymbolCreateForm = ({ wallet, increaseSymbolings, toggleSymbolErrorMessage
       if(response.data.status == "succeeded"){
         const symboling = response.data.symboling
         increaseSymbolings(symboling)
-        Notify.success(`${symboling} was successfully added!`)
+        Notify.success(`The Symbole ${symboling.name}, was successfully added!`)
       }else{
         toggleSymbolErrorMessages("display", response.data.message)
       }

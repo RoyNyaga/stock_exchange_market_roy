@@ -6,10 +6,12 @@ import axios from 'axios';
 import 'antd/dist/antd.css';
 import SymbolingUpdateForm from './symbolingUpdateForm';
 import BtnDelete from '../../../shared/btnDelete';
+import DisappearingDiv from '../../../shared/disappearingDiv';
 
 
 const Symboling = ({ symboling, updateSymboling, reduceSymbolings }) => {
   const [modalVisibility, setModalVisibility] = useState(false)
+  const [disDivClass, setDisDivClass] = useState("hide")
   
   const handleCancel = () => {
     setModalVisibility(false)
@@ -27,18 +29,16 @@ const Symboling = ({ symboling, updateSymboling, reduceSymbolings }) => {
   return <Wrapper>
     <div className="d-flex justify-content-between text-white">
       <span>{symboling.name}</span>
-      <span className="cursor-pointer" onClick={()=>setModalVisibility(true)}><EditOutlined/></span>
-      <span className="cursor-pointer"><BtnDelete object={`${symboling.name} symbole`} option={deleteSymboling}><DeleteOutlined style={{color: "red"}}/></BtnDelete></span>
+      { disDivClass == "show" ? <span className="cursor-pointer" onClick={()=>setDisDivClass("hide")}>X</span> : 
+        <span className="cursor-pointer" onClick={()=>setDisDivClass("show")}><EditOutlined/></span>
+      }
+      <span onClick={()=>deleteSymboling()} className="cursor-pointer"><DeleteOutlined style={{color: "red"}}/></span>
     </div>
+      <DisappearingDiv divClass={disDivClass} >
+        <SymbolingUpdateForm symboling={symboling} updateSymboling={updateSymboling}
+          handleCancel={handleCancel}/>
+      </DisappearingDiv>
 
-    <StyledModal
-      title="Update Symbol"
-      visible={modalVisibility}
-      onCancel={handleCancel}
-    >
-      <SymbolingUpdateForm symboling={symboling} updateSymboling={updateSymboling}
-      handleCancel={handleCancel}/>
-    </StyledModal>
   </Wrapper>;
 }
 
