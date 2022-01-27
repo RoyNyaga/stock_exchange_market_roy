@@ -8,6 +8,7 @@ import NotificationList from '../../notifications/notificationList';
 import BtnGeneral from '../../../shared/btnGeneral';
 import WalletEndOfDayData from './walletEndOfDayData';
 import WalletEndOfDayDataList from './walletEndOfDayDataList';
+import DisplayErrorMessages from '../../../shared/displayErrorMessages';
 
 const WalletList = () => {
   const [ wallets, setWallets ] = useState([])
@@ -16,10 +17,24 @@ const WalletList = () => {
   const [ walletNotifications, setWalletNotifications ] = useState([])
   const [ walletEndOfDaySymbolingData, setWalletEndOfDaySymbolingData ] = useState([])
   const [ btnLoad, setBtnLoad ] = useState(false)
+  const [ errorMessages, setErrorMessages ] = useState([])
+  const [ symbolErrorMessage, setSymbolErrorMessage] = useState([])
 
   const updateSymboling = (symboling) => {
     const symbolings = symbolingsOfSelectedWallet.filter((s) => s.id != symboling.id)
     setSymbolingsOfSelectedWallet([...symbolings, symboling])
+  }
+
+  const toggleSymbolErrorMessages = (type, message=[]) => {
+    type == "display" ? setSymbolErrorMessage(message) : setSymbolErrorMessage([])
+  }
+
+  const showErrors = (errorMessages) => {
+    setErrorMessages(errorMessages)
+  }
+
+  const dismissErrors = () => {
+    setErrorMessages([])
   }
 
   const increaseSymbolings = (symboling) => {
@@ -80,6 +95,8 @@ const WalletList = () => {
     getWalletSymbolings(walletId)
     getWalletNotifications(walletId)
     setWalletEndOfDaySymbolingData([])
+    setErrorMessages([])
+    toggleSymbolErrorMessages("hide")
   }
 
   const renderWalletAsSelected = (wallet) => {
@@ -107,7 +124,12 @@ const WalletList = () => {
   return <Wrapper>
     <div className="row">
       <div className="col-md-4 wallet-create-form-div my-5">
-        <WalletCreateForm  increaseWallets={increaseWallets}/>
+        <WalletCreateForm showErrors={showErrors}  increaseWallets={increaseWallets}
+        dismissErrors={dismissErrors}/>
+
+        { errorMessages.length > 0 ? <DisplayErrorMessages messages={errorMessages} />
+        : null }
+
         <div className="wallets-list-div">
           { wallets.length > 0 ? wallets.map((wallet) => renderWalletAsSelected(wallet)) : null }
         </div>
@@ -121,7 +143,9 @@ const WalletList = () => {
         symbolings={symbolingsOfSelectedWallet}
         increaseSymbolings={increaseSymbolings}
         updateSymboling={updateSymboling}
-        reduceSymbolings={reduceSymbolings}/> : null }
+        reduceSymbolings={reduceSymbolings}
+        toggleSymbolErrorMessages={toggleSymbolErrorMessages}
+        symbolErrorMessage={symbolErrorMessage}/> : null }
 
         <div className="end-of-day-data-btn my-5 d-flex justify-content-center">
           { symbolingsOfSelectedWallet.length > 0 ?

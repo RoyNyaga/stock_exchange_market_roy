@@ -28,7 +28,7 @@ class WalletsController < ApplicationController
     if @wallet.update(wallet_params)
       render json: { wallet: @wallet, status: "succeeded" }
     else
-      render json: { message: @wallet.errors.messages.join(","), status: "failed" }
+      render json: { message: @wallet.errors.messages, status: "failed" }
     end
   end
 
@@ -37,7 +37,7 @@ class WalletsController < ApplicationController
     if @wallet.save
       render json: {wallet: @wallet, status: "succeeded"}
     else
-      render json: { message: @wallet.errors.full_messages.join(","), status: "failed" }
+      render json: { message: @wallet.errors.full_messages, status: "failed" }
     end
   end
   

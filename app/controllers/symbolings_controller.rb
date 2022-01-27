@@ -4,6 +4,8 @@ class SymbolingsController < ApplicationController
 
   def update
     @symboling = Symboling.find_by(id: params[:id])
+    symbol_info = MarketstackService.get_data("eod", params[:symboling][:name])
+    return render json: { message: MarketstackService.parse_error_message(symbol_info), status: "failed" } if symbol_info.keys.include?("error")
     if @symboling.update(symboling_params)
       render json: { symboling: @symboling, status: "succeeded"}
     else

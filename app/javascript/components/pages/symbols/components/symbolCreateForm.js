@@ -3,15 +3,17 @@ import styled from 'styled-components';
 import BtnGeneral from '../../../shared/btnGeneral';
 import axios from 'axios';
 import Notify from '../../../shared/notify';
+import DisplayErrorMessages from '../../../shared/displayErrorMessages';
 
-const SymbolCreateForm = ({ wallet, increaseSymbolings }) => {
+const SymbolCreateForm = ({ wallet, increaseSymbolings, toggleSymbolErrorMessages,
+  symbolErrorMessage }) => {
   const [nameInputFieldValue, setNameInputFieldValue] = useState("")
   const [ btnLoad, setBtnLoad ] = useState(false)
 
   const submit = (e) => {
-    setBtnLoad(true)
-
     e.preventDefault();
+    toggleSymbolErrorMessages("hide")
+    setBtnLoad(true)
     axios.post(`/symbolings`, {
       symboling: {
         name: nameInputFieldValue,
@@ -19,9 +21,13 @@ const SymbolCreateForm = ({ wallet, increaseSymbolings }) => {
       }
     })
     .then(response=>{
-      const symboling = response.data.symboling
-      increaseSymbolings(symboling)
-      Notify.success(`${symboling} was successfully added!`)
+      if(response.data.status == "succeeded"){
+        const symboling = response.data.symboling
+        increaseSymbolings(symboling)
+        Notify.success(`${symboling} was successfully added!`)
+      }else{
+        toggleSymbolErrorMessages("display", response.data.message)
+      }
       setBtnLoad(false)
     })
     .catch(error=>{
@@ -35,6 +41,8 @@ const SymbolCreateForm = ({ wallet, increaseSymbolings }) => {
     <div className="d-flex justify-content-center my-4">
       <BtnGeneral loading={btnLoad} option={submit}>Add Symbol</BtnGeneral>
     </div>
+
+    { symbolErrorMessage.length > 0 ? <DisplayErrorMessages messages={symbolErrorMessage}/> : null}
   </Wrapper>;
 }
 

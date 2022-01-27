@@ -8,7 +8,7 @@ import Notify from '../../../shared/notify';
 const token = document.querySelector('[name=csrf-token]').content
 axios.defaults.headers.common['X-CSRF-TOKEN'] = token
 
-const WalletCreateForm = ({ increaseWallets }) => {
+const WalletCreateForm = ({ increaseWallets, showErrors, dismissErrors }) => {
   const [ nameInputField, setNameInputField ] = useState("");
   const [ btnLoad, setBtnLoad ] = useState(false)
 
@@ -19,17 +19,22 @@ const WalletCreateForm = ({ increaseWallets }) => {
       wallet: { name: nameInputField }
     })
     .then(response=>{
-      increaseWallets(response.data.wallet)
-      Notify.success(`${response.data.wallet.name} was created successfully`)
+      if(response.data.status == "succeeded"){
+        increaseWallets(response.data.wallet)
+        Notify.success(`${response.data.wallet.name} was created successfully`)
+        dismissErrors()
+      }else{
+        showErrors(response.data.message)
+      }
       setBtnLoad(false)
     })
     .catch(error=>{
       console.log(error)
       setBtnLoad(false)
-
     })
     
   }
+
 
   return <Wrapper>
     <input type="text" onChange={(e)=>{setNameInputField(e.target.value)}} className="form-control" placeholder='Enter Wallet Name' />
