@@ -11,8 +11,8 @@ class WalletsController < ApplicationController
 
   def symbol_end_of_day_data
     symboling_string = @wallet.symbolings.map(&:name).join(",")
-    symbol_info = MarketstackService.get_data("eod", symboling_string)
-    render json: symbol_info["data"][0,5]
+    symbol_info = MarketstackService.get_data("eod", symboling_string)["data"].shuffle[0,6]
+    render json: symbol_info
   end
 
   def symbolings
