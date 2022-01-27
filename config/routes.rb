@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     member do 
       get :symbolings
       get :notifications
+      get :symbol_end_of_day_data
     end
   end
 

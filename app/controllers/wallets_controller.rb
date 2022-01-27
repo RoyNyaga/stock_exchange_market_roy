@@ -1,11 +1,18 @@
+require "#{Rails.root}/app/services/marketstack_service.rb"
 class WalletsController < ApplicationController
-  before_action :set_wallet, only: %i[ update destroy symbolings notifications ]
+  before_action :set_wallet, only: %i[ update destroy symbolings notifications symbol_end_of_day_data]
   
   def index
     render json: Wallet.all
   end
 
   def main_page
+  end
+
+  def symbol_end_of_day_data
+    symboling_string = @wallet.symbolings.map(&:name).join(",")
+    symbol_info = MarketstackService.get_data("eod", symboling_string)
+    render json: symbol_info["data"][0,5]
   end
 
   def symbolings

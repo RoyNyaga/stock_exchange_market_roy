@@ -5,12 +5,16 @@ import WalletCreateForm from './walletCreateForm';
 import Wallet from './wallet';
 import SelectedWallet from './selectedWallet';
 import NotificationList from '../../notifications/notificationList';
+import BtnGeneral from '../../../shared/btnGeneral';
+import WalletEndOfDayData from './walletEndOfDayData';
+import WalletEndOfDayDataList from './walletEndOfDayDataList';
 
 const WalletList = () => {
   const [ wallets, setWallets ] = useState([])
   const [ selectedWalletId, setSellectedWalletId ] = useState()
   const [ symbolingsOfSelectedWallet, setSymbolingsOfSelectedWallet] = useState([])
   const [ walletNotifications, setWalletNotifications ] = useState([])
+  const [ walletEndOfDaySymbolingData, setWalletEndOfDaySymbolingData ] = useState([])
 
   const updateSymboling = (symboling) => {
     const symbolings = symbolingsOfSelectedWallet.filter((s) => s.id != symboling.id)
@@ -73,6 +77,7 @@ const WalletList = () => {
     setSellectedWalletId(walletId)
     getWalletSymbolings(walletId)
     getWalletNotifications(walletId)
+    setWalletEndOfDaySymbolingData([])
   }
 
   const renderWalletAsSelected = (wallet) => {
@@ -87,6 +92,13 @@ const WalletList = () => {
     return wallet.id == selectedWalletId;
   })
 
+  const getEndOfDayDataForAllSymbols = () => {
+    axios.get(`/wallets/${getSelectedWallet.id}/symbol_end_of_day_data`)
+    .then(response => {
+      setWalletEndOfDaySymbolingData(response.data)
+    })
+  }
+
 
   return <Wrapper>
     <div className="row">
@@ -97,6 +109,7 @@ const WalletList = () => {
         </div>
       </div>
       <div className="col-md-4 notifications-div">
+        <WalletEndOfDayDataList endOfDayData={walletEndOfDaySymbolingData} wallet={getSelectedWallet}/>
         <NotificationList notifications={walletNotifications}/>
       </div>
       <div className="col-md-4 symbol-div py-5">
@@ -105,6 +118,14 @@ const WalletList = () => {
         increaseSymbolings={increaseSymbolings}
         updateSymboling={updateSymboling}
         reduceSymbolings={reduceSymbolings}/> : null }
+
+        <div className="end-of-day-data-btn my-5 d-flex justify-content-center">
+          { symbolingsOfSelectedWallet.length > 0 ?
+          <BtnGeneral option={getEndOfDayDataForAllSymbols}>Get end of day data for all symbolgs</BtnGeneral>
+          :
+          null
+        } 
+        </div>
       </div>
     </div>
   </Wrapper>;
